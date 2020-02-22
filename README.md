@@ -1,5 +1,5 @@
 # slothAI
-Research AI like  a sloth
+Learn AI like a sloth
 ## Directory Despcription
 ```
 ├─ai-gym         [各类AI技术训练]   

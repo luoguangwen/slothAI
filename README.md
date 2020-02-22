@@ -9,6 +9,8 @@ Learn AI like a sloth
 │  ├─opencv
 │  ├─pytorch
 │  └─spider
-└─slothAI-book   [note book ]
+├─slothAI-book   [note book ]
+│
+├─application    [基于AI的应用工程目录]
 
 ```

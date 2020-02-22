@@ -1,0 +1,2 @@
+# About
+AI applicatoin

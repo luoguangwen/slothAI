@@ -22,6 +22,24 @@ import matplotlib.pyplot as plt
 
 
 def mnist_dense_model():
+    """
+    model summary:
+    Model: "sequential_1"
+    _________________________________________________________________
+    Layer (type)                 Output Shape              Param #
+    =================================================================
+    dense_1 (Dense)              (None, 512)               401920
+    _________________________________________________________________
+    dense_2 (Dense)              (None, 10)                5130
+    =================================================================
+    Total params: 407,050
+    Trainable params: 407,050
+    Non-trainable params: 0
+    _________________________________________________________________
+
+    input vecotor ( samples,28*28 ) : 需要将每个height 28 ， width 28的 图片转成784的向量
+    output vector (10)  ： 输入图片可能是0~9 中每个数字的概率
+    """
     network = models.Sequential()
     network.add(layers.Dense(512, activation='relu', input_shape=(28 * 28,)))
     network.add(layers.Dense(10, activation='softmax'))
@@ -31,7 +49,6 @@ def mnist_dense_model():
                     metrics=['accuracy'])
 
     return network
-
 
 
 def prepare_mnist_data():
@@ -57,8 +74,7 @@ def prepare_mnist_data():
     train_labels = to_categorical(train_labels)  #
     test_labels = to_categorical(test_labels)
 
-    print('-->train image\'s shape', train_images.shape, '\tndim:',
-          train_images.ndim)  # (60000,28,28) 60000个像素为28*28的图片
+    print('-->train image\'s shape', train_images.shape, '\tndim:', train_images.ndim)  # (10000,28,28) 60000个像素为28*28的图片
     print('-->train label\'s shape', train_labels.shape, '\tndim:', train_labels.ndim)
     print('-->test image\'s shape', test_images.shape, '\tndim:', test_images.ndim)
     print('-->test label\'s shape', test_labels.shape, '\tndim:', test_labels.ndim)
@@ -67,10 +83,14 @@ def prepare_mnist_data():
 
 def main():
 
+    model = mnist_dense_model()
+    model.summary()
+    return
 
     # 准备数据
     train_images, train_labels, test_images, test_labels = prepare_mnist_data()
 
+    # 通过在键盘按 't' / 'l' /'c' 键并回车，选择对应的动作‘训练’/'使用已存储的模型'/‘退出’
     print('*' * 60)
     print('Enter \'T\' to train model\nEnter \'L\' to load model\nEnter \'C\' to exit\n')
     print('*' * 60)
@@ -116,8 +136,6 @@ def main():
             return
         else:
             one_char = sys.stdin.read(1)
-
-
 
 if __name__ == '__main__':
     main()

@@ -101,6 +101,14 @@ def get_reuters_data():
 from torch.autograd import Variable
 
 def get_cifar10_data():
+    """
+    该数据集共有60000张彩色图像，这些图像是32*32，分为10个类，每类6000张图。
+    这里面有50000张用于训练，构成了5个训练批，每一批10000张图；
+    另外10000用于测试，单独构成一批。测试批的数据里，取自10类中的每一类，每一类随机取1000张。
+    抽剩下的就随机排列组成了训练批。注意一个训练批中的各类图像并不一定数量相同，
+    总的来看训练批，每一类都有5000张图。
+    :return:
+    """
 
     # CIFAR10数据集
     trainset = dsets.CIFAR10(root='./data',
@@ -111,22 +119,32 @@ def get_cifar10_data():
                                      train=False,
                                      transform = transforms.ToTensor(),
                                      download=True)
-    print('CIFAR10数据集原始数据信息(pytorch):')
-    print("-->>trainset data shape :", trainset.data.shape, 'trainset data dim:', trainset.data.ndim)
-    print("-->>trainset labels shape:", len(trainset.targets))
+
     traindata = np.array(trainset.data)
     trainlabels = np.array(trainset.targets)
-
-    print("-->>testset data shape :", testset.data.shape, 'trainset data dim:', testset.data.ndim)
-    print("-->>testset labels shape:", len(testset.targets))
     testdata = np.array(testset.data)
     testlabels = np.array(testset.targets)
+
+    print('-' * 40)
+    print('CIFAR10数据集原始数据信息(pytorch):')
+    print("--->CIFAR10 dataset train data's shape :", traindata.shape,  'dim:', traindata.ndim)
+    print("--->CIFAR10 dataset train label's shape:",trainlabels.shape,'dim',trainlabels.ndim)
+
+
+    print("--->CIFAR10 dataset test data's shape:", testdata.shape, 'dim:', testset.data.ndim)
+    print("--->CIFAR10 dataset test data's shape:", testlabels.shape,'dim',testlabels.ndim)
+
 
 
     return traindata, trainlabels, testdata, testlabels # (50000, 32, 32, 3) (50000,) (10000, 32, 32, 3) (10000,)
 
 
 def get_cifar100_data():
+    """
+    这个数据集就像CIFAR-10，除了它有100个类，每个类包含600个图像。，每类各有500个训练图像和100个测试图像。
+    CIFAR-100中的100个类被分成20个超类。每个图像都带有一个“精细”标签（它所属的类）和一个“粗糙”标签（它所属的超类）
+    :return:
+    """
     # CIFAR100数据集
     trainset = dsets.CIFAR100(root='./data',
                                        train=True,
@@ -135,17 +153,21 @@ def get_cifar100_data():
     testset = dsets.CIFAR100(root='./data',
                                       train=False,
                                       transform=transforms.ToTensor())
-    print('CIFAR100数据集原始数据信息(pytorch):')
-    print("-->>trainset data shape :",trainset.data.shape,'trainset data dim:',trainset.data.ndim)
-    print("-->>trainset labels shape:",len(trainset.targets))
+
     traindata = np.array(trainset.data)
     trainlabels = np.array(trainset.targets)
 
-    print("-->>testset data shape :", testset.data.shape, 'trainset data dim:', testset.data.ndim)
-    print("-->>testset labels shape:", len(testset.targets))
     testdata = np.array(testset.data)
     testlabels = np.array(testset.targets)
 
+    print('-' * 40)
+    print('CIFAR100数据集原始数据信息(pytorch):')
+    print("--->CIFAR100 dataset train data's shape :", traindata.shape,  'dim:', traindata.ndim)
+    print("--->CIFAR100 dataset train label's shape:",trainlabels.shape,'dim',trainlabels.ndim)
+
+
+    print("--->CIFAR100 dataset test data's shape:", testdata.shape, 'dim:', testset.data.ndim)
+    print("--->CIFAR100 dataset test data's shape:", testlabels.shape,'dim',testlabels.ndim)
 
     return traindata,trainlabels,testdata,testlabels
 
@@ -155,6 +177,8 @@ if __name__ == '__main__':
     get_imdb_data()
     get_mnist_data()
     get_reuters_data()
+    get_cifar10_data()
+    get_cifar100_data()
     """
     执行结果如下所示：
 ----------------------------------------

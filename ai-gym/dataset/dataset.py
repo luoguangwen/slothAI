@@ -13,6 +13,11 @@ from keras.datasets import imdb
 from keras.datasets import mnist
 from keras.datasets import reuters
 
+import torchvision.datasets as dsets
+import torchvision.transforms as transforms
+
+import numpy as np
+
 def get_imdb_data():
     """
     返回imdb数据集。 此处使用keras内置imdb模块进行加载。首次调用时会从网络下载。
@@ -91,6 +96,59 @@ def get_reuters_data():
     print('--> REUTERS dataset test label\'s shape:', test_labels.shape, '\tndim:', test_labels.ndim)
 
     return train_images, train_labels, test_images, test_labels
+
+
+from torch.autograd import Variable
+
+def get_cifar10_data():
+
+    # CIFAR10数据集
+    trainset = dsets.CIFAR10(root='./data',
+                                     train=True,
+                                     transform = transforms.ToTensor(),
+                                     download=True)
+    testset = dsets.CIFAR10(root='./data',
+                                     train=False,
+                                     transform = transforms.ToTensor(),
+                                     download=True)
+    print('CIFAR10数据集原始数据信息(pytorch):')
+    print("-->>trainset data shape :", trainset.data.shape, 'trainset data dim:', trainset.data.ndim)
+    print("-->>trainset labels shape:", len(trainset.targets))
+    traindata = np.array(trainset.data)
+    trainlabels = np.array(trainset.targets)
+
+    print("-->>testset data shape :", testset.data.shape, 'trainset data dim:', testset.data.ndim)
+    print("-->>testset labels shape:", len(testset.targets))
+    testdata = np.array(testset.data)
+    testlabels = np.array(testset.targets)
+
+
+    return traindata, trainlabels, testdata, testlabels # (50000, 32, 32, 3) (50000,) (10000, 32, 32, 3) (10000,)
+
+
+def get_cifar100_data():
+    # CIFAR100数据集
+    trainset = dsets.CIFAR100(root='./data',
+                                       train=True,
+                                       transform=transforms.ToTensor(),
+                                       download=True)
+    testset = dsets.CIFAR100(root='./data',
+                                      train=False,
+                                      transform=transforms.ToTensor())
+    print('CIFAR100数据集原始数据信息(pytorch):')
+    print("-->>trainset data shape :",trainset.data.shape,'trainset data dim:',trainset.data.ndim)
+    print("-->>trainset labels shape:",len(trainset.targets))
+    traindata = np.array(trainset.data)
+    trainlabels = np.array(trainset.targets)
+
+    print("-->>testset data shape :", testset.data.shape, 'trainset data dim:', testset.data.ndim)
+    print("-->>testset labels shape:", len(testset.targets))
+    testdata = np.array(testset.data)
+    testlabels = np.array(testset.targets)
+
+
+    return traindata,trainlabels,testdata,testlabels
+
 
 
 if __name__ == '__main__':

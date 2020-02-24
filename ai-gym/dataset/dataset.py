@@ -98,8 +98,6 @@ def get_reuters_data():
     return train_images, train_labels, test_images, test_labels
 
 
-from torch.autograd import Variable
-
 def get_cifar10_data():
     """
     该数据集共有60000张彩色图像，这些图像是32*32，分为10个类，每类6000张图。
@@ -199,5 +197,18 @@ REUTERS数据集原始数据信息(keras):
 --> REUTERS dataset train label's shape: (8982,) 	ndim: 1
 --> REUTERS dataset test data's shape: (2246,) 	ndim: 1
 --> REUTERS dataset test label's shape: (2246,) 	ndim: 1
+----------------------------------------
+CIFAR10数据集原始数据信息(pytorch):
+--->CIFAR10 dataset train data's shape : (50000, 32, 32, 3) dim: 4
+--->CIFAR10 dataset train label's shape: (50000,) dim 1
+--->CIFAR10 dataset test data's shape: (10000, 32, 32, 3) dim: 4
+--->CIFAR10 dataset test data's shape: (10000,) dim 1
+Files already downloaded and verified
+----------------------------------------
+CIFAR100数据集原始数据信息(pytorch):
+--->CIFAR100 dataset train data's shape : (50000, 32, 32, 3) dim: 4
+--->CIFAR100 dataset train label's shape: (50000,) dim 1
+--->CIFAR100 dataset test data's shape: (10000, 32, 32, 3) dim: 4
+--->CIFAR100 dataset test data's shape: (10000,) dim 1
     """
     pass

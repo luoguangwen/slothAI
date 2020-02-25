@@ -97,7 +97,6 @@ def get_reuters_data():
 
     return train_images, train_labels, test_images, test_labels
 
-
 def get_cifar10_data():
     """
     该数据集共有60000张彩色图像，这些图像是32*32，分为10个类，每类6000张图。
@@ -136,7 +135,6 @@ def get_cifar10_data():
 
     return traindata, trainlabels, testdata, testlabels # (50000, 32, 32, 3) (50000,) (10000, 32, 32, 3) (10000,)
 
-
 def get_cifar100_data():
     """
     这个数据集就像CIFAR-10，除了它有100个类，每个类包含600个图像。，每类各有500个训练图像和100个测试图像。
@@ -169,14 +167,106 @@ def get_cifar100_data():
 
     return traindata,trainlabels,testdata,testlabels
 
+def get_usps_data():
+    """
 
+    """
+    trainset = dsets.USPS(root='./data',
+                                       train=True,
+                                       transform=transforms.ToTensor(),
+                                       download=True)
+    testset = dsets.USPS(root='./data',
+                                      train=False,
+                                      transform=transforms.ToTensor(),
+                         download=True)
+
+    traindata = np.array(trainset.data)
+    trainlabels = np.array(trainset.targets)
+
+    testdata = np.array(testset.data)
+    testlabels = np.array(testset.targets)
+
+    print('-' * 40)
+    print('USPS数据集原始数据信息(pytorch):')
+    print("--->USPS dataset train data's shape :", traindata.shape,  'dim:', traindata.ndim)
+    print("--->USPS dataset train label's shape:",trainlabels.shape,'dim',trainlabels.ndim)
+    print("--->USPS dataset test data's shape:", testdata.shape, 'dim:', testset.data.ndim)
+    print("--->USPS dataset test data's shape:", testlabels.shape,'dim',testlabels.ndim)
+
+    return traindata,trainlabels,testdata,testlabels
+
+def get_sbdataset_data():
+    """
+
+    """
+    trainset = dsets.SBDataset(root='./data',
+                                       image_set='train',
+                                       transforms=transforms.ToTensor(),
+                                       download=True)
+    testset = dsets.SBDataset(root='./data',
+                                      image_set='val',
+                                      transforms=transforms.ToTensor(),
+                                     download=True)
+
+    traindata = np.array(trainset.data)
+    trainlabels = np.array(trainset.targets)
+
+    testdata = np.array(testset.data)
+    testlabels = np.array(testset.targets)
+
+    print('-' * 40)
+    print('USPS数据集原始数据信息(pytorch):')
+    print("--->USPS dataset train data's shape :", traindata.shape,  'dim:', traindata.ndim)
+    print("--->USPS dataset train label's shape:",trainlabels.shape,'dim',trainlabels.ndim)
+    print("--->USPS dataset test data's shape:", testdata.shape, 'dim:', testset.data.ndim)
+    print("--->USPS dataset test data's shape:", testlabels.shape,'dim',testlabels.ndim)
+
+    return traindata,trainlabels,testdata,testlabels
+
+
+def get_ucf101_data():
+    """
+    UCF101数据集内含13320 个短视频
+    视频来源：YouTube
+    视频类别：101 种
+    主要包括这5大类动作 ：人和物体交互,只有肢体动作，人与人交互，玩音乐器材，各类运动
+
+    数据比较大pytorch不提供download，需要手段去下载<https://www.crcv.ucf.edu/data/UCF101.php>
+    """
+    trainset = dsets.UCF101(root='./data',
+                                       train=True,
+                                       transform=transforms.ToTensor(),
+                                       )
+    testset = dsets.SBDataset(root='./data',
+                                      train=False,
+                                      transform=transforms.ToTensor(),
+                                     download=True)
+
+    traindata = np.array(trainset.data)
+    trainlabels = np.array(trainset.targets)
+
+    testdata = np.array(testset.data)
+    testlabels = np.array(testset.targets)
+
+    print('-' * 40)
+    print('UCF101数据集原始数据信息(pytorch):')
+    print("--->UCF101 dataset train data's shape :", traindata.shape,  'dim:', traindata.ndim)
+    print("--->UCF101 dataset train label's shape:",trainlabels.shape,'dim',trainlabels.ndim)
+    print("--->UCF101 dataset test data's shape:", testdata.shape, 'dim:', testset.data.ndim)
+    print("--->UCF101 dataset test data's shape:", testlabels.shape,'dim',testlabels.ndim)
+
+    return traindata,trainlabels,testdata,testlabels
 
 if __name__ == '__main__':
-    get_imdb_data()
-    get_mnist_data()
-    get_reuters_data()
-    get_cifar10_data()
-    get_cifar100_data()
+    # get_imdb_data()
+    # get_mnist_data()
+    # get_reuters_data()
+    # get_cifar10_data()
+    # get_cifar100_data()
+    # get_usps_data()
+    # get_sbdataset_data()
+    get_ucf101_data()
+
     """
     执行结果如下所示：
 ----------------------------------------
@@ -185,12 +275,14 @@ IMDB数据集原始数据信息(keras):
 --> imdb dataset  train label's shape: (25000,) 	ndim: 1
 --> imdb dataset  test data's shape: (25000,) 	ndim: 1
 --> imdb dataset  test label's shape: (25000,) 	ndim: 1
+
 ----------------------------------------
 MNIST数据集原始数据信息(keras):
 --> MNIST dataset train image's shape: (60000, 28, 28) 	ndim: 3
 --> MNIST dataset train label's shape: (60000,) 	ndim: 1
 --> MNIST dataset test image's shape: (10000, 28, 28) 	ndim: 3
 --> MNIST dataset test label's shape: (10000,) 	ndim: 1
+
 ----------------------------------------
 REUTERS数据集原始数据信息(keras):
 --> REUTERS dataset train data's shape: (8982,) 	ndim: 1
@@ -203,12 +295,19 @@ CIFAR10数据集原始数据信息(pytorch):
 --->CIFAR10 dataset train label's shape: (50000,) dim 1
 --->CIFAR10 dataset test data's shape: (10000, 32, 32, 3) dim: 4
 --->CIFAR10 dataset test data's shape: (10000,) dim 1
-Files already downloaded and verified
+
 ----------------------------------------
 CIFAR100数据集原始数据信息(pytorch):
 --->CIFAR100 dataset train data's shape : (50000, 32, 32, 3) dim: 4
 --->CIFAR100 dataset train label's shape: (50000,) dim 1
 --->CIFAR100 dataset test data's shape: (10000, 32, 32, 3) dim: 4
 --->CIFAR100 dataset test data's shape: (10000,) dim 1
+
+----------------------------------------
+USPS数据集原始数据信息(pytorch):
+--->USPS dataset train data's shape : (7291, 16, 16) dim: 3
+--->USPS dataset train label's shape: (7291,) dim 1
+--->USPS dataset test data's shape: (2007, 16, 16) dim: 3
+--->USPS dataset test data's shape: (2007,) dim 1
     """
     pass

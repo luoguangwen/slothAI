@@ -15,6 +15,8 @@ from keras.datasets import reuters
 
 import torchvision.datasets as dsets
 import torchvision.transforms as transforms
+import torch.utils as torch_utils
+
 
 import numpy as np
 
@@ -197,16 +199,22 @@ def get_usps_data():
 
 def get_sbdataset_data():
     """
-
+    数据大约1.4G,单独下载后解压在./data目录下。
+    下载地址： http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/semantic_contours/benchmark.tgz
     """
-    trainset = dsets.SBDataset(root='./data',
+    trainset = dsets.SBDataset(root='E:/python-src/pytorch/data/benchmark_RELEASE/dataset',
                                        image_set='train',
                                        transforms=transforms.ToTensor(),
-                                       download=True)
-    testset = dsets.SBDataset(root='./data',
+                                       download=False)
+    testset = dsets.SBDataset(root='E:/python-src/pytorch/data/benchmark_RELEASE/dataset',
                                       image_set='val',
                                       transforms=transforms.ToTensor(),
-                                     download=True)
+                                     download=False)
+    # trainloader = torch_utils.data.DataLoader(trainset, batch_size=16,
+    #                                           shuffle=True, num_workers=2)
+
+    # for i, data in enumerate(trainloader) :
+    #     print(data)
 
     traindata = np.array(trainset.data)
     trainlabels = np.array(trainset.targets)
@@ -237,7 +245,7 @@ def get_ucf101_data():
                                        train=True,
                                        transform=transforms.ToTensor(),
                                        )
-    testset = dsets.SBDataset(root='./data',
+    testset = dsets.UCF101(root='./data',
                                       train=False,
                                       transform=transforms.ToTensor(),
                                      download=True)
@@ -264,8 +272,8 @@ if __name__ == '__main__':
     # get_cifar10_data()
     # get_cifar100_data()
     # get_usps_data()
-    # get_sbdataset_data()
-    get_ucf101_data()
+    get_sbdataset_data()
+    #get_ucf101_data()
 
     """
     执行结果如下所示：

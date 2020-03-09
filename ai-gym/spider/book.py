@@ -37,13 +37,21 @@ class HandleBook(object):
 
     #请求首页，取得MD文件列表
     def handle_index(self):
-        md_search = re.compile(r'href="/book/85(.*)\.md" title=')
+        md_search = re.compile(r'href="/book/85(.*)\.md"\s*title=')
         index_url = "https://www.cntofu.com/book/85/index.html"
         result = self.handle_request(method="GET",url=index_url)
-        print(result)
+
+        soup = BeautifulSoup(result, 'lxml')
+
+        # 找出包含md文件内容的div标签
+        soupTagUl = soup.find_all("ul", class_="book-menu-bar")
+        print(soupTagUl)
         #使用正则表达式获取md文件列表
-        self.md_list = set(md_search.findall(result))
+        self.md_list = (md_search.findall(soupTagUl.__str__()))
+        #self.md_list = set(md_search.findall(soupTagUl.__str__()))  #set函数会打乱顺序？？
         self.baidu_seddion.cookies.clear()
+        print('md file list:',self.md_list)
+
         return self.md_list
 
 
@@ -92,13 +100,17 @@ if __name__ == '__main__':
 
     #取得md文件列表
     md_list = book.handle_index()
+    print(len(md_list))
 
     #循环请求各md文件
-    fullname = os.path.join('./data', 'a_book.md')
+    fullname = os.path.join('./', 'book_a.md')
     with open(fullname, 'ab+')as md_file:
         for index in md_list:
             result = book.handle_request(method="GET", url="https://www.cntofu.com/book/85{}.md".format(index))
 
             md_content = extract_md_from_html(result)
 
+            tempstr = '# ' + '*' *5 + index + '.md' + '*' *5 + '\n\n'
+            print(tempstr)
+            md_file.write(tempstr.encode(encoding='UTF-8'))
             md_file.write(md_content.encode(encoding='UTF-8'))

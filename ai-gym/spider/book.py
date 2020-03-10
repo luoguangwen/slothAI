@@ -92,6 +92,30 @@ def extract_md_from_html(htmlstr):
     # 去掉<div>  </div>
     reg = re.compile(r'<[/]?div\s*.*"*\s?>')
     res = reg.sub('', res)
+
+    # HTML标签
+    # reg = re.compile('</?\w+[^>]*>')
+    # res = reg.sub('', res)  # 去掉HTML 标签
+
+    # </?h[0-9]+[^>]*>   --> <h*     >  </h*>
+    reg = re.compile('</?h[0-9]+[^>]*>')
+    res = reg.sub('', res)  # 去掉h*标签
+
+    # </?ol[^>]*>        --> 去ol标签
+    reg = re.compile('</?ol[^>]*>')
+    res = reg.sub('', res)  # 去掉ol标签
+
+    # </?li[^>]*>        --> 去li标签
+    reg = re.compile('</?li[^>]*>')
+    res = reg.sub('', res)  # 去掉li标签
+
+    # </?ul[^>]*>        --> 去ul标签
+    reg = re.compile('</?ul[^>]*>')
+    res = reg.sub('', res)  # 去掉ul标签
+
+    # </?hr[^>]*>        --> 去hr标签
+    reg = re.compile('</?hr[^>]*>')
+    res = reg.sub('', res)  # 去掉hr标签
     return res
 
 if __name__ == '__main__':
@@ -103,7 +127,7 @@ if __name__ == '__main__':
     print(len(md_list))
 
     #循环请求各md文件
-    fullname = os.path.join('./', 'book_a.md')
+    fullname = os.path.join('./', 'book_f.md')
     with open(fullname, 'ab+')as md_file:
         for index in md_list:
             result = book.handle_request(method="GET", url="https://www.cntofu.com/book/85{}.md".format(index))
